@@ -1,7 +1,10 @@
+// Core Dependencies
 const Axios    = require("axios")
-const Chalk    = require("chalk")
 const Cron     = require("cron").CronJob
+
+// Internal Dependencies
 const Defaults = require("./env/defaults")
+const Util     = require("./src/util")
 
 
 // console.log(Chalk.yellow.bold("TRAINING"))
@@ -73,17 +76,47 @@ const fetchData = async () => {
     ],
     volumes: [
       gdaxApiRes.data.volume,
-      krakenApiRes.data.result.XETHZUSD.c[0],
+      krakenApiRes.data.result.XETHZUSD.v[1],
       geminiApiRes.data.volume.ETH
     ],
   }
+}
+
+const parseData = async () => {
+  const res = await fetchData()
+
+  if (!res.status === 200) {
+    const errMsg = `
+      One or more of the API calls resulted in a bad response.
+    `
+
+    throw new Error(errMsg)
+  }
+
+  const prices = res.prices.filter((x) => Util.isNum(x))
+  const volumes = res.volumes.filter((x) => Util.isNum(x))
+
+  if (prices.length !== volumes.length) {
+    const errMsg = `
+      Cannot calculate weighted average when there are an inconsistent number
+      of prices and volumes. This is likely indicative of a breaking API change
+      in one of the APIs. Updating parsing logic accordingly should resolve
+      this issue.
+    `
+
+    throw new Error(errMsg)
+  }
+
+  const average = Util.weightedAverage(prices, volumes)
+  // sendEmail()
+  return average
 }
 
 /* CRON */
 // Base cron settings
 const cronSettings = {
   cronTime: "0 * * * * *", // First second of every minute of every hour of ...
-  onTick: fetchData,
+  onTick: parseData,
   start: false,
 }
 
