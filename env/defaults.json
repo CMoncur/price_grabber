@@ -1,5 +1,7 @@
 {
   "APP": "price_grabber",
+  "EMAIL_SERVICE": "gmail",
+  "EMAIL_SUBJECT": "Weighted ETH price",
   "BASE_API_PARAMS": {
     "fsym": "ETH",
     "tsym": "USD",
