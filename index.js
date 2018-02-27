@@ -93,8 +93,13 @@ const parseData = async () => {
     throw new Error(errMsg)
   }
 
-  const prices = res.prices.filter((x) => Util.isNum(x))
-  const volumes = res.volumes.filter((x) => Util.isNum(x))
+  const prices = res.prices
+    .map((x) => Number(x))
+    .filter((x) => Util.isNum(x))
+
+  const volumes = res.volumes
+    .map((x) => Number(x))
+    .filter((x) => Util.isNum(x))
 
   if (prices.length !== volumes.length) {
     const errMsg = `
@@ -109,6 +114,7 @@ const parseData = async () => {
 
   const average = Util.weightedAverage(prices, volumes)
   // sendEmail()
+  console.log(average)
   return average
 }
 

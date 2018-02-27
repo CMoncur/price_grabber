@@ -10,8 +10,25 @@ function isNum (x) {
 
 // weightedAverage :: [ Number ], [ Number ] -> Number
 function weightedAverage(prices, volumes) {
-  console.log(prices)
-  console.log(volumes)
+  if (prices.length !== volumes.length) {
+    throw new TypeError("Weighted Average expects two equal sized lists")
+  }
 
-  return 1
+  if (!prices.every((x) => isNum(x)) || !volumes.every((x) => isNum(x))) {
+    throw new TypeError("Weighted Average lists must contain only numbers")
+  }
+
+  const largestVolume = volumes.reduce((x, xs) => {
+    return x > xs ? x : xs
+  }, 0)
+
+  const volumeWeights = volumes.map((x) => x / largestVolume)
+
+  const weightTotal = volumeWeights.reduce((x, xs) => x + xs)
+
+  const weightedPriceTotal = prices
+    .map((x, i) => x * volumeWeights[i])
+    .reduce((x, xs) => x + xs)
+
+  return weightedPriceTotal / weightTotal
 }
