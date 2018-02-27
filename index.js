@@ -146,6 +146,9 @@ if (ARGS.length !== 3) {
 
     Example:
     npm start sender@email.com secretpass recipient@email.com
+
+    Note:
+    Special characters in passwords will need to be escaped.
   `
 
   throw new Error(errMsg)
