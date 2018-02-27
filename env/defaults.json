@@ -1,0 +1,12 @@
+{
+  "APP": "price_grabber",
+  "BASE_API_PARAMS": {
+    "fsym": "ETH",
+    "tsym": "USD",
+    "pair": "ETHUSD",
+    "limit": 1
+  },
+  "GDAX_API_URL": "https://api.gdax.com/products/ETH-USD/ticker",
+  "KRAKEN_API_URL": "https://api.kraken.com/0/public/Ticker?pair=ETHUSD",
+  "GEMINI_API_URL": "https://api.gemini.com/v1/pubticker/ethusd"
+}
