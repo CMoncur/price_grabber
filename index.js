@@ -124,8 +124,7 @@ const parseData = async () => {
 /* CRON */
 // Base cron settings
 const cronSettings = {
-  // "0 0 0 12 * *" // Every day at noon
-  cronTime: "0 * * * * *", // First second of every minute of every hour of ...
+  cronTime: "0 0 0 12 * *", // Every day at noon
   onTick: parseData,
   start: false,
 }
