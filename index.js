@@ -4,12 +4,18 @@ const Cron     = require("cron").CronJob
 
 // Internal Dependencies
 const Defaults = require("./env/defaults")
+const Emailer  = require("./src/emailer")
 const Util     = require("./src/util")
 
+// Command Line Arguments
+const ARGS = process.argv.slice(2) // Strips NodeJS base args
 
-// console.log(Chalk.yellow.bold("TRAINING"))
-// console.log(Chalk.yellow("Inputs: ", JSON.stringify(neuralNetInput)))
-// console.log(Chalk.yellow("Outputs: ", JSON.stringify(neuralNetOutput())))
+// Base Email Options
+const EMAIL_OPTIONS = {
+  sender : ARGS[0],
+  senderPass : ARGS[1],
+  recipient : ARGS[2],
+}
 
 const fetchData = async () => {
   /* Example GDAX Response:
@@ -112,15 +118,13 @@ const parseData = async () => {
     throw new Error(errMsg)
   }
 
-  const average = Util.weightedAverage(prices, volumes)
-  // sendEmail()
-  console.log(average)
-  return average
+  Emailer.sendEmail(Util.weightedAverage(prices, volumes), EMAIL_OPTIONS)
 }
 
 /* CRON */
 // Base cron settings
 const cronSettings = {
+  // "0 0 0 12 * *" // Every day at noon
   cronTime: "0 * * * * *", // First second of every minute of every hour of ...
   onTick: parseData,
   start: false,
@@ -131,4 +135,22 @@ const app = new Cron(cronSettings)
 
 /* APPLICATION */
 // Start the cron
-app.start()
+if (ARGS.length !== 3) {
+  const errMsg = `
+    Incorrect number of arguments passed to price_grabber. Expecting three
+    arguments in the form of:
+
+    1. Sender Email Address (expects Gmail address)
+    2. Sender Email Password
+    3. Recipient Email Address
+
+    Example:
+    npm start sender@email.com secretpass recipient@email.com
+  `
+
+  throw new Error(errMsg)
+}
+
+else {
+  app.start()
+}

@@ -12,11 +12,9 @@ const Defaults = require("../env/defaults")
 // Send an email containing the weighted average Ethereum price to the recipient
 /* Email Options Example:
 
-{ sender : "example@example.com"
-, senderPass : "somePass"
-, recipient : "example@example.com"
-, subject : "Email Title"
-}
+{ sender : "example@example.com",
+  senderPass : "somePass",
+  recipient : "example@example.com"
 */
 function sendEmail(average, emailOptions) {
   const emailText = `
