@@ -12,9 +12,12 @@ const Defaults = require("../env/defaults")
 // Send an email containing the weighted average Ethereum price to the recipient
 /* Email Options Example:
 
-{ sender : "example@example.com",
+{ server : "some.smtp.yeah.com",
+  port : 123,
+  sender : "example@example.com",
   senderPass : "somePass",
   recipient : "example@example.com"
+}
 */
 function sendEmail(average, emailOptions) {
   const emailText = `
@@ -30,10 +33,12 @@ function sendEmail(average, emailOptions) {
   `
 
   const transporter = Mailer.createTransport({
-    service: Defaults.EMAIL_SERVICE,
-    auth: {
-      user: emailOptions.sender,
-      pass: emailOptions.senderPass,
+    host : emailOptions.server,
+    port : emailOptions.port,
+    secure : emailOptions.port === 465 ? true : false,
+    auth : {
+      user : emailOptions.sender,
+      pass : emailOptions.senderPass,
     },
   })
 

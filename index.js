@@ -12,9 +12,11 @@ const ARGS = process.argv.slice(2) // Strips NodeJS base args
 
 // Base Email Options
 const EMAIL_OPTIONS = {
-  sender : ARGS[0],
-  senderPass : ARGS[1],
-  recipient : ARGS[2],
+  server : ARGS[0],
+  port : ARGS[1],
+  sender : ARGS[2],
+  senderPass : ARGS[3],
+  recipient : ARGS[4],
 }
 
 const fetchData = async () => {
@@ -126,7 +128,7 @@ const parseData = async () => {
 /* CRON */
 // Base cron settings
 const cronSettings = {
-  cronTime: "0 0 12 * * *", // Every day at noon
+  cronTime: "0 * * * * *", // "0 0 12 * * *", // Every day at noon
   onTick: parseData,
   start: false,
 }
@@ -136,17 +138,20 @@ const app = new Cron(cronSettings)
 
 /* APPLICATION */
 // Start the cron
-if (ARGS.length !== 3) {
+if (ARGS.length !== 5) {
   const errMsg = `
     Incorrect number of arguments passed to price_grabber. Expecting three
     arguments in the form of:
 
-    1. Sender Email Address (expects Gmail address)
-    2. Sender Email Password
-    3. Recipient Email Address
+    1. URL of the SMTP email server
+    2. Port of the SMTP email server
+    3. Sender Email Address (expects Gmail address)
+    4. Sender Email Password
+    5. Recipient Email Address
 
     Example:
-    npm start sender@email.com secretpass recipient@email.com
+    npm start some.smtp.yeah.com 123 sender@email.com secretpass recipient@ema
+    il.com
 
     Note:
     Special characters in passwords will need to be escaped.
