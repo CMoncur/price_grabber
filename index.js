@@ -145,8 +145,8 @@ if (ARGS.length !== 5) {
 
     1. URL of the SMTP email server
     2. Port of the SMTP email server
-    3. Sender Email Address (expects Gmail address)
-    4. Sender Email Password
+    3. Server username
+    4. Server password
     5. Recipient Email Address
 
     Example:
