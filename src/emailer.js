@@ -35,7 +35,7 @@ function sendEmail(average, emailOptions) {
   const transporter = Mailer.createTransport({
     host : emailOptions.server,
     port : emailOptions.port,
-    secure : emailOptions.port === 465 ? true : false,
+    secure : emailOptions.port === "465" ? true : false,
     auth : {
       user : emailOptions.sender,
       pass : emailOptions.senderPass,
@@ -43,7 +43,7 @@ function sendEmail(average, emailOptions) {
   })
 
   const email = {
-    from: emailOptions.sender,
+    from: Defaults.EMAIL_SENDER,
     to: emailOptions.recipient,
     subject: Defaults.EMAIL_SUBJECT,
     text: emailText,
