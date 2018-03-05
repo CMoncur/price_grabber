@@ -1,5 +1,6 @@
 {
   "APP": "price_grabber",
+  "TIMEZONE": "America/Los_Angeles",
   "EMAIL_SENDER": "price_grabber@hoshogroup.com",
   "EMAIL_SERVICE": "smtp",
   "EMAIL_SUBJECT": "Weighted ETH price",

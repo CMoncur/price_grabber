@@ -126,6 +126,7 @@ const cronSettings = {
   cronTime: "0 0 12 * * *", // Every day at noon
   onTick: parseData,
   start: false,
+  timeZone: Util.isNil(ARGS[5]) ? Defaults.TIMEZONE : ARGS[5],
 }
 
 // Cron for fetching ticker data
@@ -133,9 +134,9 @@ const app = new Cron(cronSettings)
 
 /* APPLICATION */
 // Start the cron
-if (ARGS.length !== 5) {
+if (ARGS.length !== 5 || ARGS.length !== 6) {
   const errMsg = `
-    Incorrect number of arguments passed to price_grabber. Expecting three
+    Incorrect number of arguments passed to price_grabber. Expecting five
     arguments in the form of:
 
     1. URL of the SMTP email server
@@ -148,6 +149,11 @@ if (ARGS.length !== 5) {
     npm start some.smtp.yeah.com 123 sender@email.com secretpass recipient@ema
     il.com
 
+    An optional sixth parameter can be passed in the form of a timezone. for
+    example:
+    npm start some.smtp.yeah.com 123 sender@email.com secretpass recipient@ema
+    il.com America/Los_Angeles
+
     Note:
     Special characters in passwords will need to be escaped.
   `
@@ -156,5 +162,9 @@ if (ARGS.length !== 5) {
 }
 
 else {
+  // Start Cron
   app.start()
+
+  // Send initial price email
+  parseData()
 }
