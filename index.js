@@ -101,13 +101,8 @@ const parseData = async () => {
     throw new Error(errMsg)
   }
 
-  const prices = res.prices
-    .map((x) => Number(x))
-    .filter((x) => Util.isNum(x))
-
-  const volumes = res.volumes
-    .map((x) => Number(x))
-    .filter((x) => Util.isNum(x))
+  const prices = Util.castToInt(res.prices)
+  const volumes = Util.castToInt(res.volumes)
 
   if (prices.length !== volumes.length) {
     const errMsg = `

@@ -1,6 +1,14 @@
 module.exports = {
+  castToInt,
   isNum,
   weightedAverage,
+}
+
+// [ String ] -> [ Number ]
+function castToInt (xs) {
+  return xs
+    .map((x) => Number(x))
+    .filter((x) => isNum(x))
 }
 
 // isNum :: a -> Bool
