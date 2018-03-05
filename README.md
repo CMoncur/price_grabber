@@ -1,5 +1,5 @@
 # price_grabber
-Grabs ETH price daily from multiple sources, calculates a weighted average of the price by 24 hour volume, and emails it to supplied email address daily at noon.
+Grabs ETH price daily from multiple sources, calculates a weighted average of the price by 24 hour volume, and emails it to supplied email address daily at noon. Will also send an initial price email upon startup.
 
 ## Using price_grabber
 First, install dependencies:
