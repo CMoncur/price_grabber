@@ -134,7 +134,7 @@ const app = new Cron(cronSettings)
 
 /* APPLICATION */
 // Start the cron
-if (ARGS.length !== 5 || ARGS.length !== 6) {
+if (ARGS.length !== 5 && ARGS.length !== 6) {
   const errMsg = `
     Incorrect number of arguments passed to price_grabber. Expecting five
     arguments in the form of:
